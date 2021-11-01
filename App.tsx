@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Navigator screenOptions={{headerShown: false, unmountOnBlur: true}}>
         <Tab.Screen name="JSI" component={JSICamera} />
         <Tab.Screen name="Bridge" component={BridgeCamera} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
