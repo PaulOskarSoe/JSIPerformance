@@ -8,10 +8,11 @@ target 'JSIPeformance' do
 
   use_react_native!(
     :path => config[:reactNativePath],
+ 
+
     # to enable hermes on iOS, change `false` to `true` andg then install pods
     :hermes_enabled => false
   )
-
   target 'JSIPeformanceTests' do
     inherit! :complete
     # Pods for testing
@@ -27,4 +28,8 @@ target 'JSIPeformance' do
     react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
+
+
+  pod 'GoogleMLKit/ImageLabeling', '2.3.0'
+
 end

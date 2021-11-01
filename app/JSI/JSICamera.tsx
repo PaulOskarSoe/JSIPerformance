@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {FC, useRef, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Camera, useCameraDevices} from 'react-native-vision-camera';
+import {
+  Camera,
+  useCameraDevices,
+  useFrameProcessor,
+} from 'react-native-vision-camera';
 import Reanimated from 'react-native-reanimated';
+import {labelImage} from './frame-processors/labelImage';
+import {useSharedValue} from 'react-native-reanimated';
+import {Label} from './Label';
 
 interface IJSICamera {}
 
@@ -15,25 +22,35 @@ const JSICamera: FC<IJSICamera> = () => {
   const [cameraPosition, setCameraPosition] = useState<'front' | 'back'>(
     'back',
   );
+  const currentLabel = useSharedValue('');
 
   const camera = useRef<Camera>(null);
   const devices = useCameraDevices();
   const device = devices[cameraPosition];
 
-  console.log('device:', device);
+  const frameProcessor = useFrameProcessor(
+    frame => {
+      'worklet';
+      const labels = labelImage(frame);
+      currentLabel.value = labels[0]?.label;
+    },
+    [currentLabel],
+  );
 
   return (
     <View style={styles.container}>
       {device && (
         <ReanimatedCamera
-          style={StyleSheet.absoluteFill}
+          frameProcessor={frameProcessor}
+          frameProcessorFps={3}
+          fps={60}
+          style={styles.camera}
           isActive
           ref={camera}
           device={device}
-          photo
-          video
         />
       )}
+      <Label sharedValue={currentLabel} />
     </View>
   );
 };
@@ -44,5 +61,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
+  },
+  camera: {
+    flex: 1,
+    width: '100%',
+  },
+  foundItem: {
+    position: 'absolute',
+    top: 50,
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 600,
   },
 });
