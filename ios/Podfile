@@ -8,20 +8,10 @@ target 'JSIPeformance' do
 
   use_react_native!(
     :path => config[:reactNativePath],
+     :hermes_enabled => false
+  )
  
 
-    # to enable hermes on iOS, change `false` to `true` andg then install pods
-    :hermes_enabled => false
-  )
-  target 'JSIPeformanceTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable the next line.
   use_flipper!()
 
   post_install do |installer|
@@ -29,7 +19,8 @@ target 'JSIPeformance' do
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 
-
+  # ML pods
   pod 'GoogleMLKit/ImageLabeling', '2.3.0'
+  pod 'GoogleMLKit/BarcodeScanning', '2.3.0'
 
 end

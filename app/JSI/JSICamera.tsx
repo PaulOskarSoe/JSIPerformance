@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, useContext, useRef, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {
   Camera,
@@ -10,6 +10,7 @@ import Reanimated from 'react-native-reanimated';
 import {labelImage} from './frame-processors/labelImage';
 import {useSharedValue} from 'react-native-reanimated';
 import {Label} from './Label';
+import {MainContext} from '../context/MainContext';
 
 interface IJSICamera {}
 
@@ -22,6 +23,8 @@ const JSICamera: FC<IJSICamera> = () => {
   const [cameraPosition, setCameraPosition] = useState<'front' | 'back'>(
     'back',
   );
+  const {mode} = useContext(MainContext);
+
   const currentLabel = useSharedValue('');
 
   const camera = useRef<Camera>(null);
@@ -31,8 +34,12 @@ const JSICamera: FC<IJSICamera> = () => {
   const frameProcessor = useFrameProcessor(
     frame => {
       'worklet';
-      const labels = labelImage(frame);
-      currentLabel.value = labels[0]?.label;
+      if (mode === 'image_label') {
+        const labels = labelImage(frame);
+        currentLabel.value = labels[0]?.label;
+      } else if (mode === 'barcode_scan') {
+        // trigger barcode image processor
+      }
     },
     [currentLabel],
   );
