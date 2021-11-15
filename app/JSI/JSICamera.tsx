@@ -7,10 +7,13 @@ import {
   useFrameProcessor,
 } from 'react-native-vision-camera';
 import Reanimated from 'react-native-reanimated';
-import {labelImage} from './frame-processors/labelImage';
 import {useSharedValue} from 'react-native-reanimated';
 import {Label} from './Label';
 import {MainContext} from '../context/MainContext';
+
+// frame processors
+import {labelImage} from './frame-processors/labelImage';
+import {scanQRCodes} from 'vision-camera-qrcode-scanner';
 
 interface IJSICamera {}
 
@@ -38,7 +41,11 @@ const JSICamera: FC<IJSICamera> = () => {
         const labels = labelImage(frame);
         currentLabel.value = labels[0]?.label;
       } else if (mode === 'barcode_scan') {
-        // trigger barcode image processor
+        const results = scanQRCodes(frame);
+        console.log('results:', results);
+        if (results[0]?.content) {
+          currentLabel.value = JSON.stringify(results[0]?.content);
+        }
       }
     },
     [currentLabel],

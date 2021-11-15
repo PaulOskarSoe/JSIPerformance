@@ -6757,6 +6757,11 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vision-camera-qrcode-scanner@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/vision-camera-qrcode-scanner/-/vision-camera-qrcode-scanner-0.1.4.tgz#48b2bae40df0d52b4e8b07a65ccc04d4dea2fa26"
+  integrity sha512-SNnCCl4fSCs6fN4WaQC9h8jLNjHLRZi7vj204xkCW5j2ScLE4Yx0/YZEcotW+m8YnXlZwrxRNOv9blA3YPcS9w==
+
 vlq@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vlq/-/vlq-1.0.1.tgz#c003f6e7c0b4c1edd623fd6ee50bbc0d6a1de468"

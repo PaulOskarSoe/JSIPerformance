@@ -455,6 +455,9 @@ PODS:
   - RNScreens (3.9.0):
     - React-Core
     - React-RCTImage
+  - vision-camera-qrcode-scanner (0.1.4):
+    - GoogleMLKit/BarcodeScanning
+    - React-Core
   - VisionCamera (2.9.3):
     - React
     - React-callinvoker
@@ -522,6 +525,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - vision-camera-qrcode-scanner (from `../node_modules/vision-camera-qrcode-scanner`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -626,6 +630,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  vision-camera-qrcode-scanner:
+    :path: "../node_modules/vision-camera-qrcode-scanner"
   VisionCamera:
     :path: "../node_modules/react-native-vision-camera"
   Yoga:
@@ -695,6 +701,7 @@ SPEC CHECKSUMS:
   ReactCommon: 620442811dc6f707b4bf5e3b27d4f19c12d5a821
   RNReanimated: b04ef2a4f0cb61b062bbcf033f84a9e470f4f60b
   RNScreens: 4d79118be80f79fa1f4aa131909a1d6e86280af3
+  vision-camera-qrcode-scanner: 39fc13c42c2f493f2952541f4773424437727411
   VisionCamera: 930b15dcc52c10d31e88f3fa07a774da225373ea
   Yoga: 2b4a01651f42a32f82e6cef3830a3ba48088237f
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
