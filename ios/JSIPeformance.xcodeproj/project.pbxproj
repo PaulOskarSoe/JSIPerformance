@@ -14,6 +14,7 @@
 		6172F2D35A4C3AA820D92908 /* libPods-JSIPeformance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-JSIPeformance.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		DA45EB832730403700157FB7 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45EB822730403700157FB7 /* File.swift */; };
+		DA6FDEA72742B9BE001BEA24 /* BarcodeScanProcessorPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6FDEA62742B9BE001BEA24 /* BarcodeScanProcessorPlugin.m */; };
 		DA7B71FB2730601300F1DED5 /* ImageLabelProcessorPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7B71FA2730601300F1DED5 /* ImageLabelProcessorPlugin.m */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		D00AAFFCFCFDA5787532823F /* Pods-JSIPeformance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSIPeformance.release.xcconfig"; path = "Target Support Files/Pods-JSIPeformance/Pods-JSIPeformance.release.xcconfig"; sourceTree = "<group>"; };
 		DA45EB812730403700157FB7 /* JSIPeformance-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSIPeformance-Bridging-Header.h"; sourceTree = "<group>"; };
 		DA45EB822730403700157FB7 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		DA6FDEA62742B9BE001BEA24 /* BarcodeScanProcessorPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BarcodeScanProcessorPlugin.m; sourceTree = "<group>"; };
 		DA7B71FA2730601300F1DED5 /* ImageLabelProcessorPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageLabelProcessorPlugin.m; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -93,6 +95,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				DA7B71FA2730601300F1DED5 /* ImageLabelProcessorPlugin.m */,
+				DA6FDEA62742B9BE001BEA24 /* BarcodeScanProcessorPlugin.m */,
 			);
 			name = JSIPeformance;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				DA7B71FB2730601300F1DED5 /* ImageLabelProcessorPlugin.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				DA45EB832730403700157FB7 /* File.swift in Sources */,
+				DA6FDEA72742B9BE001BEA24 /* BarcodeScanProcessorPlugin.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
