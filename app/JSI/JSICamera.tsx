@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {FC, useCallback, useContext, useRef, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {FC, useContext, useRef, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {
   Camera,
   useCameraDevices,
@@ -38,8 +38,6 @@ const JSICamera: FC = () => {
   const testResults = useSharedValue<any>([]);
   const device = devices[cameraPosition];
 
-  console.log('mode:', mode);
-
   const frameProcessor = useFrameProcessor(
     frame => {
       'worklet';
@@ -67,7 +65,6 @@ const JSICamera: FC = () => {
 
         if (detectedFaces.length > 0) {
           testResults.value = scanFaces(frame);
-
           currentLabel.value = `Smiling => ${detectedFaces[0].smilingProbability}, Left eye open => ${detectedFaces[0].leftEyeOpenProbability} Right eye open => ${detectedFaces[0].rightEyeOpenProbability} `;
         }
       }
