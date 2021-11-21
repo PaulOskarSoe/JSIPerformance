@@ -1,6 +1,6 @@
 import React, {createContext, FC, useState} from 'react';
 
-type MLMode = 'image_label' | 'barcode_scan';
+export type MLMode = 'image_label' | 'barcode_scan' | 'text_regocnizition';
 
 interface IMainContext {
   mode: MLMode;

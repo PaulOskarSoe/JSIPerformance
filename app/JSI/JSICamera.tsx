@@ -14,6 +14,7 @@ import {MainContext} from '../context/MainContext';
 // frame processors
 import {labelImage} from './frame-processors/labelImage';
 import {scanQRCodes} from 'vision-camera-qrcode-scanner';
+import {recognizeText} from './frame-processors/recognizeText';
 
 interface IJSICamera {}
 
@@ -42,10 +43,12 @@ const JSICamera: FC<IJSICamera> = () => {
         currentLabel.value = labels[0]?.label;
       } else if (mode === 'barcode_scan') {
         const results = scanQRCodes(frame);
-        console.log('results:', results);
+
         if (results[0]?.content) {
           currentLabel.value = JSON.stringify(results[0]?.content);
         }
+      } else if (mode === 'text_regocnizition') {
+        const results = recognizeText(frame);
       }
     },
     [currentLabel],

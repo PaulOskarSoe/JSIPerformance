@@ -1,32 +1,30 @@
 import React, {FC, useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {MainContext} from '../context/MainContext';
+import {MainContext, MLMode} from '../context/MainContext';
+import RNPickerSelect from 'react-native-picker-select';
 
 interface ISettingsScreen {}
+
+interface IMLOptions {
+  label: string;
+  value: MLMode;
+}
 
 const SettingsScreen: FC<ISettingsScreen> = () => {
   const {mode, setMode} = useContext(MainContext);
 
+  const options: IMLOptions[] = [
+    {label: 'Image labeling', value: 'image_label'},
+    {label: 'Barcode scanning', value: 'barcode_scan'},
+    {label: 'Text recognizition', value: 'text_regocnizition'},
+  ];
+
   return (
     <View style={styles.container}>
-      <BouncyCheckbox
-        textStyle={styles.checkboxText}
-        size={25}
-        text="Image labeling"
-        style={styles.checkbox}
-        onPress={() => setMode('image_label')}
-        isChecked={mode === 'image_label'}
-        disableBuiltInState
-      />
-      <BouncyCheckbox
-        textStyle={styles.checkboxText}
-        style={styles.checkbox}
-        size={25}
-        text="Barcode scanning"
-        isChecked={mode === 'barcode_scan'}
-        onPress={() => setMode('barcode_scan')}
-        disableBuiltInState
+      <RNPickerSelect
+        items={options}
+        onValueChange={val => setMode(val)}
+        value={mode}
       />
     </View>
   );
