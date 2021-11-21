@@ -6770,6 +6770,11 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vision-camera-face-detector@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/vision-camera-face-detector/-/vision-camera-face-detector-0.1.8.tgz#5a20d19999ec9127cd7da6290d5453f30f653070"
+  integrity sha512-nlfOMjuHQF66gI162ZCSnmXbinYqNA0+NPzmjZxUwXPOAQidNqLERC8W9LBXhbnIJyMmflMT9X1utpF1D0TlAg==
+
 vision-camera-qrcode-scanner@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmjs.org/vision-camera-qrcode-scanner/-/vision-camera-qrcode-scanner-0.1.4.tgz"

@@ -16,6 +16,7 @@ import {labelImage} from './frame-processors/labelImage';
 import {scanQRCodes} from 'vision-camera-qrcode-scanner';
 import {recognizeText} from './frame-processors/recognizeText';
 import RunTestButton from '../components/RunTestButton';
+import {scanFaces, Face} from 'vision-camera-face-detector';
 
 type CameraPosition = 'front' | 'back';
 
@@ -37,27 +38,42 @@ const JSICamera: FC = () => {
   const testResults = useSharedValue<any>([]);
   const device = devices[cameraPosition];
 
-  const frameProcessor = useFrameProcessor(frame => {
-    'worklet';
-    if (mode === 'image_label') {
-      testResults.value = labelImage(frame);
-      if (testResults.value?.[0]) {
-        currentLabel.value = testResults.value[0].label;
-      }
-    } else if (mode === 'barcode_scan') {
-      const response = scanQRCodes(frame);
-      if (response) {
-        testResults.value = response;
-        // runOnJS(onResultsDetected)(response);
+  console.log('mode:', mode);
 
-        if (response?.[0]?.content) {
-          currentLabel.value = JSON.stringify(response[0].content);
+  const frameProcessor = useFrameProcessor(
+    frame => {
+      'worklet';
+      if (mode === 'image_label') {
+        const labeledImages = labelImage(frame);
+
+        if (labeledImages.length > 0) {
+          if (testResults.value?.[0]) {
+            currentLabel.value = testResults.value[0].label;
+          }
+        }
+      } else if (mode === 'barcode_scan') {
+        const scannedCodes = scanQRCodes(frame);
+
+        if (scannedCodes.length > 0) {
+          if (testResults.value?.[0]?.content) {
+            currentLabel.value = JSON.stringify(testResults.value[0].content);
+          }
+        }
+        // TODO needs implementation
+      } else if (mode === 'text_regocnizition') {
+        const results = recognizeText(frame);
+      } else if (mode === 'face_detection') {
+        const detectedFaces = scanFaces(frame);
+
+        if (detectedFaces.length > 0) {
+          testResults.value = scanFaces(frame);
+
+          currentLabel.value = `Smiling => ${detectedFaces[0].smilingProbability}, Left eye open => ${detectedFaces[0].leftEyeOpenProbability} Right eye open => ${detectedFaces[0].rightEyeOpenProbability} `;
         }
       }
-    } else if (mode === 'text_regocnizition') {
-      const results = recognizeText(frame);
-    }
-  }, []);
+    },
+    [mode],
+  );
 
   return (
     <View style={styles.container}>

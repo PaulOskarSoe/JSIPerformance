@@ -9,7 +9,7 @@ interface IRunTestButtonProps {
 }
 
 const RunTestButton: FC<IRunTestButtonProps> = ({onRunTest, testResults}) => {
-  const {setTestResults} = useContext(MainContext);
+  const {mode, setTestResults} = useContext(MainContext);
   const [testRunning, setTestRunning] = useState<boolean>(false);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(10); // default value is 10, maybe in future let user to set testing interval?
   const [results, setResults] = useState<any[]>([]);
@@ -49,7 +49,7 @@ const RunTestButton: FC<IRunTestButtonProps> = ({onRunTest, testResults}) => {
       setResults([]);
       setTestResults(currResults => ({
         ...currResults,
-        ['barcode_scan']: {sum_in_ten_seconds: results.length},
+        [mode]: {sum_in_ten_seconds: results.length},
       }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

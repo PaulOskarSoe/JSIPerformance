@@ -17,6 +17,7 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
     {label: 'Image labeling', value: 'image_label'},
     {label: 'Barcode scanning', value: 'barcode_scan'},
     {label: 'Text recognizition', value: 'text_regocnizition'},
+    {label: 'Face detection', value: 'face_detection'},
   ];
 
   return (

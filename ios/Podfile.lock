@@ -79,6 +79,9 @@ PODS:
   - GoogleMLKit/BarcodeScanning (2.3.0):
     - GoogleMLKit/MLKitCore
     - MLKitBarcodeScanning (~> 1.4.0)
+  - GoogleMLKit/FaceDetection (2.3.0):
+    - GoogleMLKit/MLKitCore
+    - MLKitFaceDetection (~> 1.3.0)
   - GoogleMLKit/ImageLabeling (2.3.0):
     - GoogleMLKit/MLKitCore
     - MLKitImageLabeling (~> 1.3.0)
@@ -119,6 +122,9 @@ PODS:
     - GoogleUtilitiesComponents (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
     - Protobuf (~> 3.12)
+  - MLKitFaceDetection (1.3.0):
+    - MLKitCommon (~> 3.0)
+    - MLKitVision (~> 1.3)
   - MLKitImageLabeling (1.3.0):
     - MLKitCommon (~> 3.0)
     - MLKitImageLabelingCommon (~> 1.3)
@@ -457,6 +463,9 @@ PODS:
   - RNScreens (3.9.0):
     - React-Core
     - React-RCTImage
+  - vision-camera-face-detector (0.1.8):
+    - GoogleMLKit/FaceDetection
+    - React-Core
   - vision-camera-qrcode-scanner (0.1.4):
     - GoogleMLKit/BarcodeScanning
     - React-Core
@@ -528,6 +537,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - vision-camera-face-detector (from `../node_modules/vision-camera-face-detector`)
   - vision-camera-qrcode-scanner (from `../node_modules/vision-camera-qrcode-scanner`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -555,6 +565,7 @@ SPEC REPOS:
     - MLImage
     - MLKitBarcodeScanning
     - MLKitCommon
+    - MLKitFaceDetection
     - MLKitImageLabeling
     - MLKitImageLabelingCommon
     - MLKitObjectDetectionCommon
@@ -635,6 +646,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  vision-camera-face-detector:
+    :path: "../node_modules/vision-camera-face-detector"
   vision-camera-qrcode-scanner:
     :path: "../node_modules/vision-camera-qrcode-scanner"
   VisionCamera:
@@ -669,6 +682,7 @@ SPEC CHECKSUMS:
   MLImage: 647f3d580c10b3c9a3f6154f5d7baead60c42a0c
   MLKitBarcodeScanning: db5ca9cd47166160d70c295531436edaa12ddd50
   MLKitCommon: 1b5c79d52f79d9cc93ab5300e9713c4c215121ea
+  MLKitFaceDetection: 897f007aa4eb426ef1bac7c66e5451d02ffc2e83
   MLKitImageLabeling: fc44a4f90b1cf16bcb62c043d477c052ba7539ca
   MLKitImageLabelingCommon: fbe695a04fb236555e6b7e69e7def153a04324c1
   MLKitObjectDetectionCommon: 6abf300c61cd781ee3abc8abea8a3f8baca886dc
@@ -707,6 +721,7 @@ SPEC CHECKSUMS:
   RNCPicker: 0991c56da7815c0cf946d6f63cf920b25296e5f6
   RNReanimated: b04ef2a4f0cb61b062bbcf033f84a9e470f4f60b
   RNScreens: 4d79118be80f79fa1f4aa131909a1d6e86280af3
+  vision-camera-face-detector: c1d0ace533f6bcf710a21428efef01e019be42f4
   vision-camera-qrcode-scanner: 39fc13c42c2f493f2952541f4773424437727411
   VisionCamera: 930b15dcc52c10d31e88f3fa07a774da225373ea
   Yoga: 2b4a01651f42a32f82e6cef3830a3ba48088237f

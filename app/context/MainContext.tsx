@@ -1,6 +1,10 @@
 import React, {createContext, FC, useState} from 'react';
 
-export type MLMode = 'image_label' | 'barcode_scan' | 'text_regocnizition';
+export type MLMode =
+  | 'image_label'
+  | 'barcode_scan'
+  | 'text_regocnizition'
+  | 'face_detection';
 
 export interface TestResults {
   sum_in_ten_seconds: number;
