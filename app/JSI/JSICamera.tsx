@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {FC, useContext, useRef, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {FC, useCallback, useContext, useRef, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
   Camera,
   useCameraDevices,
@@ -15,44 +15,49 @@ import {MainContext} from '../context/MainContext';
 import {labelImage} from './frame-processors/labelImage';
 import {scanQRCodes} from 'vision-camera-qrcode-scanner';
 import {recognizeText} from './frame-processors/recognizeText';
+import RunTestButton from '../components/RunTestButton';
 
-interface IJSICamera {}
+type CameraPosition = 'front' | 'back';
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
+
 Reanimated.addWhitelistedNativeProps({
   zoom: true,
 });
 
-const JSICamera: FC<IJSICamera> = () => {
-  const [cameraPosition, setCameraPosition] = useState<'front' | 'back'>(
-    'back',
-  );
+const JSICamera: FC = () => {
   const {mode} = useContext(MainContext);
 
-  const currentLabel = useSharedValue('');
+  const [cameraPosition, setCameraPosition] = useState<CameraPosition>('back');
 
   const camera = useRef<Camera>(null);
-  const devices = useCameraDevices();
+
+  const devices = useCameraDevices('wide-angle-camera');
+  const currentLabel = useSharedValue('');
+  const testResults = useSharedValue<any>([]);
   const device = devices[cameraPosition];
 
-  const frameProcessor = useFrameProcessor(
-    frame => {
-      'worklet';
-      if (mode === 'image_label') {
-        const labels = labelImage(frame);
-        currentLabel.value = labels[0]?.label;
-      } else if (mode === 'barcode_scan') {
-        const results = scanQRCodes(frame);
-
-        if (results[0]?.content) {
-          currentLabel.value = JSON.stringify(results[0]?.content);
-        }
-      } else if (mode === 'text_regocnizition') {
-        const results = recognizeText(frame);
+  const frameProcessor = useFrameProcessor(frame => {
+    'worklet';
+    if (mode === 'image_label') {
+      testResults.value = labelImage(frame);
+      if (testResults.value?.[0]) {
+        currentLabel.value = testResults.value[0].label;
       }
-    },
-    [currentLabel],
-  );
+    } else if (mode === 'barcode_scan') {
+      const response = scanQRCodes(frame);
+      if (response) {
+        testResults.value = response;
+        // runOnJS(onResultsDetected)(response);
+
+        if (response?.[0]?.content) {
+          currentLabel.value = JSON.stringify(response[0].content);
+        }
+      }
+    } else if (mode === 'text_regocnizition') {
+      const results = recognizeText(frame);
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -68,6 +73,7 @@ const JSICamera: FC<IJSICamera> = () => {
         />
       )}
       <Label sharedValue={currentLabel} />
+      <RunTestButton testResults={testResults} onRunTest={() => null} />
     </View>
   );
 };

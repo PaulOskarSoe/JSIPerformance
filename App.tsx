@@ -11,13 +11,19 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <MainContextProvider>
-      <NavigationContainer
-        theme={{
-          dark: false,
-          colors: {background: '#FFFFFF', text: '#eee', primary: '#34eb83'},
-        }}>
+      <NavigationContainer>
         <Tab.Navigator
-          screenOptions={{headerShown: false, unmountOnBlur: true}}>
+          screenOptions={{
+            headerShown: false,
+            unmountOnBlur: true,
+            tabBarLabelPosition: 'beside-icon',
+            tabBarLabelStyle: {
+              fontWeight: '700',
+              fontSize: 15,
+              right: 15,
+            },
+            tabBarIconStyle: {display: 'none'},
+          }}>
           <Tab.Screen name="JSI" component={JSICamera} />
           <Tab.Screen name="Bridge" component={BridgeCamera} />
           <Tab.Screen name="Settings" component={SettingsScreen} />

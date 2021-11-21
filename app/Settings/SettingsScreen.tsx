@@ -22,6 +22,7 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
   return (
     <View style={styles.container}>
       <RNPickerSelect
+        style={{viewContainer: styles.picker}}
         items={options}
         onValueChange={val => setMode(val)}
         value={mode}
@@ -35,7 +36,6 @@ export default SettingsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
     backgroundColor: '#FFFFFF',
     height: '100%',
     padding: 20,
@@ -46,5 +46,8 @@ const styles = StyleSheet.create({
   checkboxText: {
     color: 'black',
     fontWeight: '600',
+  },
+  picker: {
+    marginTop: 50,
   },
 });
