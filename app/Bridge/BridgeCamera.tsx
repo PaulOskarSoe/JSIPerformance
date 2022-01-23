@@ -1,11 +1,18 @@
 import React, {FC, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import {useSharedValue} from 'react-native-reanimated';
+import RunTestButton from '../components/RunTestButton';
+import {Label} from '../jsi/Label';
 
 interface IBridgeCamera {}
 
 const BridgeCamera: FC<IBridgeCamera> = () => {
   const camera = useRef(null);
+
+  const testResults = useSharedValue<any>([]);
+  const currentResult = useSharedValue<any>([]);
+
   return (
     <View style={styles.container}>
       <RNCamera
@@ -28,7 +35,22 @@ const BridgeCamera: FC<IBridgeCamera> = () => {
         onGoogleVisionBarcodesDetected={({barcodes}) => {
           console.log(barcodes);
         }}
+        faceDetectionMode={'fast'}
+        onFaceDetectionError={err => console.error('error:', err)}
+        onFacesDetected={facesResponse => {
+          const {faces} = facesResponse;
+          if (faces.length > 0) {
+            currentResult.value = faces;
+            testResults.value = faces;
+          }
+        }}
       />
+      <RunTestButton
+        architecture="bridge"
+        testResults={testResults}
+        onRunTest={() => null}
+      />
+      <Label sharedValue={currentResult} key="bridge" />
     </View>
   );
 };

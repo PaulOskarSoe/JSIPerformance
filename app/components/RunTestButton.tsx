@@ -1,21 +1,34 @@
 import React, {FC, useCallback, useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {runOnJS, useAnimatedReaction} from 'react-native-reanimated';
-import {MainContext} from '../context/MainContext';
+import {
+  Architectures,
+  MainContext,
+  ResultParameters,
+} from '../context/MainContext';
+import {storage} from '../storage';
 
 interface IRunTestButtonProps {
+  architecture: Architectures;
   onRunTest: () => void;
   testResults: any;
 }
 
-const RunTestButton: FC<IRunTestButtonProps> = ({onRunTest, testResults}) => {
-  const {mode, setTestResults} = useContext(MainContext);
+const RunTestButton: FC<IRunTestButtonProps> = ({
+  onRunTest,
+  testResults,
+  architecture,
+}) => {
+  const {mode, updateTestResults, testTime} = useContext(MainContext);
   const [testRunning, setTestRunning] = useState<boolean>(false);
-  const [remainingSeconds, setRemainingSeconds] = useState<number>(10); // default value is 10, maybe in future let user to set testing interval?
-  const [results, setResults] = useState<any[]>([]);
+  const [remainingSeconds, setRemainingSeconds] = useState<number>(testTime); // default value is 10, maybe in future let user to set testing interval?
+  const [results, setResults] = useState<ResultParameters[]>([]);
 
   const onResultsDetected = useCallback((newResults: any) => {
-    setResults(currResults => [...currResults, ...newResults]);
+    setResults(currResults => [
+      ...currResults,
+      {detected_by_frame: newResults.length},
+    ]);
   }, []);
 
   // get value from UI thread and runResults on JS for testing purposes
@@ -43,17 +56,37 @@ const RunTestButton: FC<IRunTestButtonProps> = ({onRunTest, testResults}) => {
 
   // if seconds get reduced to 0, then test has been completed
   useEffect(() => {
-    if (remainingSeconds <= 0) {
-      setTestRunning(false);
-      setRemainingSeconds(10);
-      setResults([]);
-      setTestResults(currResults => ({
-        ...currResults,
-        [mode]: {sum_in_ten_seconds: results.length},
-      }));
-    }
+    const finishTest = async () => {
+      console.log('finish test');
+      if (remainingSeconds <= 0 && mode) {
+        setTestRunning(false);
+        setRemainingSeconds(testTime);
+
+        console.log('val:', {
+          architecture,
+          mode,
+          testTime,
+          results,
+          created_at: new Date(),
+        });
+
+        updateTestResults(architecture, mode as string, results);
+        storage.set(
+          JSON.stringify(new Date()),
+          JSON.stringify({
+            architecture,
+            testTime,
+            mode,
+            results,
+            created_at: new Date(),
+          }),
+        );
+      }
+    };
+
+    finishTest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [remainingSeconds, setTestResults]);
+  }, [remainingSeconds, testTime]);
 
   const onPress = () => {
     onRunTest();

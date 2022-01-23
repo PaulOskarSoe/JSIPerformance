@@ -11,7 +11,7 @@ export const Label = ({
   sharedValue: Animated.SharedValue<string>;
 }) => {
   const textProps = useAnimatedProps(
-    () => ({text: sharedValue.value}),
+    () => ({text: JSON.stringify(sharedValue.value)}),
     [sharedValue.value],
   );
 
@@ -31,9 +31,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 48,
     padding: 4,
+    height: 200,
     marginHorizontal: 20,
     backgroundColor: '#000000CC',
-    fontSize: 26,
+    fontSize: 10,
     color: 'white',
     textAlign: 'center',
   },

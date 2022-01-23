@@ -1,24 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {FC, useContext, useRef, useState} from 'react';
+import React, {FC, useContext, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
+import Reanimated, {useSharedValue} from 'react-native-reanimated';
 import {
   Camera,
   useCameraDevices,
   useFrameProcessor,
 } from 'react-native-vision-camera';
-import Reanimated from 'react-native-reanimated';
-import {useSharedValue} from 'react-native-reanimated';
-import {Label} from './Label';
-import {MainContext} from '../context/MainContext';
-
-// frame processors
-import {labelImage} from './frame-processors/labelImage';
-import {scanQRCodes} from 'vision-camera-qrcode-scanner';
-import {recognizeText} from './frame-processors/recognizeText';
+import {BarcodeFormat, scanBarcodes} from 'vision-camera-code-scanner';
+import {scanFaces} from 'vision-camera-face-detector';
 import RunTestButton from '../components/RunTestButton';
-import {scanFaces, Face} from 'vision-camera-face-detector';
-
-type CameraPosition = 'front' | 'back';
+import {MainContext} from '../context/MainContext';
+import {recognizeText} from './frame-processors/recognizeText';
+import {Label} from './Label';
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
 
@@ -29,32 +23,24 @@ Reanimated.addWhitelistedNativeProps({
 const JSICamera: FC = () => {
   const {mode} = useContext(MainContext);
 
-  const [cameraPosition, setCameraPosition] = useState<CameraPosition>('back');
-
   const camera = useRef<Camera>(null);
 
   const devices = useCameraDevices('wide-angle-camera');
   const currentLabel = useSharedValue('');
   const testResults = useSharedValue<any>([]);
-  const device = devices[cameraPosition];
+  const device = devices.back;
 
   const frameProcessor = useFrameProcessor(
     frame => {
       'worklet';
-      if (mode === 'image_label') {
-        const labeledImages = labelImage(frame);
-
-        if (labeledImages.length > 0) {
-          if (testResults.value?.[0]) {
-            currentLabel.value = testResults.value[0].label;
-          }
-        }
-      } else if (mode === 'barcode_scan') {
-        const scannedCodes = scanQRCodes(frame);
+      if (mode === 'barcode_scan') {
+        const scannedCodes = scanBarcodes(frame, [BarcodeFormat.ALL_FORMATS]);
 
         if (scannedCodes.length > 0) {
+          testResults.value = scannedCodes;
+
           if (testResults.value?.[0]?.content) {
-            currentLabel.value = JSON.stringify(testResults.value[0].content);
+            currentLabel.value = JSON.stringify(scannedCodes);
           }
         }
         // TODO needs implementation
@@ -64,8 +50,8 @@ const JSICamera: FC = () => {
         const detectedFaces = scanFaces(frame);
 
         if (detectedFaces.length > 0) {
-          testResults.value = scanFaces(frame);
-          currentLabel.value = `Smiling => ${detectedFaces[0].smilingProbability}, Left eye open => ${detectedFaces[0].leftEyeOpenProbability} Right eye open => ${detectedFaces[0].rightEyeOpenProbability} `;
+          testResults.value = detectedFaces;
+          currentLabel.value = JSON.stringify(detectedFaces);
         }
       }
     },
@@ -76,8 +62,8 @@ const JSICamera: FC = () => {
     <View style={styles.container}>
       {device && (
         <ReanimatedCamera
-          frameProcessor={frameProcessor}
-          frameProcessorFps={3}
+          frameProcessor={mode && frameProcessor}
+          frameProcessorFps={60}
           fps={60}
           style={styles.camera}
           isActive
@@ -86,7 +72,11 @@ const JSICamera: FC = () => {
         />
       )}
       <Label sharedValue={currentLabel} />
-      <RunTestButton testResults={testResults} onRunTest={() => null} />
+      <RunTestButton
+        architecture="jsi"
+        testResults={testResults}
+        onRunTest={() => null}
+      />
     </View>
   );
 };

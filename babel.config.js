@@ -10,6 +10,7 @@ module.exports = {
           '__scanQRCodes',
           '__recognizeText',
           '__scanFaces',
+          '__scanCodes',
         ],
       },
     ],
