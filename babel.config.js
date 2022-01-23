@@ -4,14 +4,7 @@ module.exports = {
     [
       'react-native-reanimated/plugin',
       {
-        globals: [
-          '__labelImage',
-          '__scanBarcode',
-          '__scanQRCodes',
-          '__recognizeText',
-          '__scanFaces',
-          '__scanCodes',
-        ],
+        globals: ['__recognizeText', '__scanFaces', '__scanCodes'],
       },
     ],
   ],

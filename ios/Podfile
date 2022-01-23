@@ -23,8 +23,14 @@ target 'JSIPeformance' do
   pod 'GoogleMLKit/ImageLabeling', '2.3.0'
   pod 'GoogleMLKit/BarcodeScanning', '2.3.0'
 
+
   pod 'react-native-camera', path: '../node_modules/react-native-camera', subspecs: [
   'FaceDetectorMLKit'
-]
+  ]
+
+  pod 'react-native-camera', path: '../node_modules/react-native-camera', subspecs: [
+    'BarcodeDetectorMLKit'
+  ]
+
 
 end
