@@ -12,8 +12,7 @@ interface IMLOptions {
 }
 
 const SettingsScreen: FC<ISettingsScreen> = () => {
-  const {mode, setMode, labelResult, setLabelResult, testResults} =
-    useContext(MainContext);
+  const {mode, setMode} = useContext(MainContext);
 
   const [results, setResults] = useState<any[]>([]);
 
@@ -37,11 +36,8 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
         let totalResultsFound = 0;
 
         parsedValue.results.forEach((result: ResultParameters) => {
-          console.log('parsedResult:', result.detected_by_frame);
           totalResultsFound += result.detected_by_frame as unknown as number;
         });
-
-        console.log('totalResultsFound:', totalResultsFound);
 
         parsedValue.totalResults = totalResultsFound;
         parsedValue.arithmeticallyFound = parseFloat(

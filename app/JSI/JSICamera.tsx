@@ -38,10 +38,7 @@ const JSICamera: FC = () => {
 
         if (scannedCodes.length > 0) {
           testResults.value = scannedCodes;
-
-          if (testResults.value?.[0]?.content) {
-            currentLabel.value = JSON.stringify(scannedCodes);
-          }
+          currentLabel.value = JSON.stringify(scannedCodes);
         }
         // TODO needs implementation
       } else if (mode === 'text_regocnizition') {

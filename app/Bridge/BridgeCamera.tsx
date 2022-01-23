@@ -33,7 +33,10 @@ const BridgeCamera: FC<IBridgeCamera> = () => {
           buttonNegative: 'Cancel',
         }}
         onGoogleVisionBarcodesDetected={({barcodes}) => {
-          console.log(barcodes);
+          if (barcodes.length > 0) {
+            currentResult.value = barcodes;
+            testResults.value = barcodes;
+          }
         }}
         faceDetectionMode={'fast'}
         onFaceDetectionError={err => console.error('error:', err)}
