@@ -43,6 +43,7 @@ const JSICamera: FC = () => {
         // TODO needs implementation
       } else if (mode === 'text_regocnizition') {
         const results = recognizeText(frame);
+        console.log('results:', results);
       } else if (mode === 'face_detection') {
         const detectedFaces = scanFaces(frame);
 
@@ -60,7 +61,7 @@ const JSICamera: FC = () => {
       {device && (
         <ReanimatedCamera
           frameProcessor={mode && frameProcessor}
-          frameProcessorFps={60}
+          frameProcessorFps={3}
           fps={60}
           style={styles.camera}
           isActive

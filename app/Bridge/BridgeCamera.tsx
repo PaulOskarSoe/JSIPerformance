@@ -47,6 +47,9 @@ const BridgeCamera: FC<IBridgeCamera> = () => {
             testResults.value = faces;
           }
         }}
+        onTextRecognized={text => {
+          console.log('text:', JSON.stringify(text));
+        }}
       />
       <RunTestButton
         architecture="bridge"

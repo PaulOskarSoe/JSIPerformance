@@ -76,20 +76,17 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleMLKit/BarcodeScanning (2.3.0):
+  - GoogleMLKit/BarcodeScanning (2.2.0):
     - GoogleMLKit/MLKitCore
-    - MLKitBarcodeScanning (~> 1.4.0)
-  - GoogleMLKit/FaceDetection (2.3.0):
+    - MLKitBarcodeScanning (~> 1.3.0)
+  - GoogleMLKit/FaceDetection (2.2.0):
     - GoogleMLKit/MLKitCore
     - MLKitFaceDetection (~> 1.3.0)
-  - GoogleMLKit/ImageLabeling (2.3.0):
+  - GoogleMLKit/MLKitCore (2.2.0):
+    - MLKitCommon (~> 3.0.0)
+  - GoogleMLKit/TextRecognition (2.2.0):
     - GoogleMLKit/MLKitCore
-    - MLKitImageLabeling (~> 1.3.0)
-  - GoogleMLKit/MLKitCore (2.3.0):
-    - MLKitCommon (~> 3.1.0)
-  - GoogleMLKit/TextRecognition (2.3.0):
-    - GoogleMLKit/MLKitCore
-    - MLKitTextRecognition (~> 1.4.0-beta1)
+    - MLKitTextRecognition (~> 1.3.0)
   - GoogleToolboxForMac/DebugUtils (2.3.2):
     - GoogleToolboxForMac/Defines (= 2.3.2)
   - GoogleToolboxForMac/Defines (2.3.2)
@@ -113,10 +110,10 @@ PODS:
   - GTMSessionFetcher/Core (1.7.0)
   - libevent (2.1.12)
   - MLImage (1.0.0-beta1)
-  - MLKitBarcodeScanning (1.4.0):
-    - MLKitCommon (~> 3.1)
+  - MLKitBarcodeScanning (1.3.0):
+    - MLKitCommon (~> 3.0)
     - MLKitVision (~> 1.3)
-  - MLKitCommon (3.1.0):
+  - MLKitCommon (3.0.0):
     - GoogleDataTransport (~> 9.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
@@ -128,23 +125,8 @@ PODS:
   - MLKitFaceDetection (1.3.0):
     - MLKitCommon (~> 3.0)
     - MLKitVision (~> 1.3)
-  - MLKitImageLabeling (1.3.0):
+  - MLKitTextRecognition (1.3.0):
     - MLKitCommon (~> 3.0)
-    - MLKitImageLabelingCommon (~> 1.3)
-    - MLKitVision (~> 1.3)
-    - MLKitVisionKit (~> 2.2)
-  - MLKitImageLabelingCommon (1.3.0):
-    - MLKitCommon (~> 3.0)
-    - MLKitVision (~> 1.3)
-  - MLKitObjectDetectionCommon (1.3.0):
-    - MLKitCommon (~> 3.0)
-    - MLKitVision (~> 1.3)
-  - MLKitTextRecognition (1.4.0-beta1):
-    - MLKitCommon (~> 3.1)
-    - MLKitTextRecognitionCommon (= 1.0.0-beta1)
-    - MLKitVision (~> 1.3)
-  - MLKitTextRecognitionCommon (1.0.0-beta1):
-    - MLKitCommon (~> 3.1)
     - MLKitVision (~> 1.3)
   - MLKitVision (1.3.0):
     - GoogleToolboxForMac/Logger (~> 2.1)
@@ -153,11 +135,6 @@ PODS:
     - MLImage (= 1.0.0-beta1)
     - MLKitCommon (~> 3.0)
     - Protobuf (~> 3.12)
-  - MLKitVisionKit (2.2.0):
-    - MLKitCommon (~> 3.0)
-    - MLKitImageLabelingCommon (~> 1.3)
-    - MLKitObjectDetectionCommon (~> 1.3)
-    - MLKitVision (~> 1.3)
   - MMKV (1.2.12):
     - MMKVCore (~> 1.2.12)
   - MMKVCore (1.2.12)
@@ -385,11 +362,6 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-camera/TextDetector (4.2.1):
-    - GoogleMLKit/TextRecognition
-    - React-Core
-    - react-native-camera/RCT
-    - react-native-camera/RN
   - react-native-mmkv (2.0.0):
     - MMKV
     - React-Core
@@ -538,8 +510,7 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.99.0)
   - FlipperKit/SKIOSNetworkPlugin (= 0.99.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - GoogleMLKit/BarcodeScanning (= 2.3.0)
-  - GoogleMLKit/ImageLabeling (= 2.3.0)
+  - GoogleMLKit/TextRecognition (= 2.2.0)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -557,7 +528,6 @@ DEPENDENCIES:
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-camera/BarcodeDetectorMLKit (from `../node_modules/react-native-camera`)
   - react-native-camera/FaceDetectorMLKit (from `../node_modules/react-native-camera`)
-  - react-native-camera/TextDetector (from `../node_modules/react-native-camera`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -605,13 +575,8 @@ SPEC REPOS:
     - MLKitBarcodeScanning
     - MLKitCommon
     - MLKitFaceDetection
-    - MLKitImageLabeling
-    - MLKitImageLabelingCommon
-    - MLKitObjectDetectionCommon
     - MLKitTextRecognition
-    - MLKitTextRecognitionCommon
     - MLKitVision
-    - MLKitVisionKit
     - MMKV
     - MMKVCore
     - nanopb
@@ -720,23 +685,18 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 5337263514dd6f09803962437687240c5dc39aa4
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
-  GoogleMLKit: 53d5adbee0fe5a701e970f1387d2cfececd5bc50
+  GoogleMLKit: 85ffdc9641d05311c76dbba5bbf93059087be12f
   GoogleToolboxForMac: 8bef7c7c5cf7291c687cf5354f39f9db6399ad34
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GoogleUtilitiesComponents: 679b2c881db3b615a2777504623df6122dd20afe
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   MLImage: 647f3d580c10b3c9a3f6154f5d7baead60c42a0c
-  MLKitBarcodeScanning: db5ca9cd47166160d70c295531436edaa12ddd50
-  MLKitCommon: 1b5c79d52f79d9cc93ab5300e9713c4c215121ea
+  MLKitBarcodeScanning: 6b998bd1cfe471ae407a7f647d649494617787c0
+  MLKitCommon: 6d6be0a2e9a6340aad1c1f2b9449c11dee8af70f
   MLKitFaceDetection: 897f007aa4eb426ef1bac7c66e5451d02ffc2e83
-  MLKitImageLabeling: fc44a4f90b1cf16bcb62c043d477c052ba7539ca
-  MLKitImageLabelingCommon: fbe695a04fb236555e6b7e69e7def153a04324c1
-  MLKitObjectDetectionCommon: 6abf300c61cd781ee3abc8abea8a3f8baca886dc
-  MLKitTextRecognition: e3216aaf3c8686021a470413c5ed01c3be040250
-  MLKitTextRecognitionCommon: 923315fc744326806d1a1355899be55320182454
+  MLKitTextRecognition: fd52b7b3cef00751c202475f5a147e9752130767
   MLKitVision: 26da299aef93291f24f5200e8372919f73abf3b5
-  MLKitVisionKit: 226bac429eda1d84285409e31ce9da72606850fb
   MMKV: f281020c9d9be5eb7a03ae746dc4deb570e46c23
   MMKVCore: df0565f6b58463604731a68ba6cd89bc0b2d1d55
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
@@ -780,6 +740,6 @@ SPEC CHECKSUMS:
   Yoga: 2b4a01651f42a32f82e6cef3830a3ba48088237f
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 76ea1967db9f1312b509319dc826629fcfbb71a5
+PODFILE CHECKSUM: 3360402c9f2783ae3f13782b4bfe2a1bf391a7eb
 
 COCOAPODS: 1.11.2
