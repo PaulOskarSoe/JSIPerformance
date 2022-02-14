@@ -15,9 +15,8 @@ public class VisionCameraTextRecognizer: NSObject, FrameProcessorPluginBase {
   @objc
   public static func callback(_ frame: Frame!, withArgs _: [Any]!) -> Any! {
     let textRecognizer = TextRecognizer.textRecognizer()
-    
-    
     let visionImage = VisionImage(buffer: frame.buffer)
+    
     visionImage.orientation = .up
     
     var resultMap: [String: Any] = [:]
