@@ -137,16 +137,22 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
 
     await AsyncStorage.multiRemove(keysToDelete);
 
-    const bridgeTestStartedAt = dayjs();
-
     // creation
-    const bridgeItemsCreationsStartedAt = dayjs();
+    let arrayOfKeys = [];
     for (let index = 0; index < counter; index++) {
-      await AsyncStorage.setItem(
-        `bridge-${index}-${uuid.v4()}`,
-        `${uuid.v4()}`,
-      );
+      arrayOfKeys.push(`bridge-${index}-${uuid.v4()}`);
     }
+
+    const bridgeTestStartedAt = dayjs();
+    const bridgeItemsCreationsStartedAt = dayjs();
+
+    await Promise.all(
+      arrayOfKeys.map(key => AsyncStorage.setItem(key, `${uuid.v4()}`)),
+    )
+      .then(val => JSON.stringify(val))
+      .catch(err => {
+        console.error('err:', err);
+      });
 
     const bridgeItemsCreationsFinishedAt = dayjs();
 
@@ -154,23 +160,19 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
 
     // read
     const bridgeReadingStartedAt = dayjs();
-    allKeys.forEach(async key => {
-      await AsyncStorage.getItem(key);
-    });
+    await Promise.all(allKeys.map(key => AsyncStorage.getItem(key)));
     const bridgeReadingFinishedAt = dayjs();
 
     // update
     const bridgeUpdateStartedAt = dayjs();
-    allKeys.forEach(async key => {
-      await AsyncStorage.setItem(key, `${uuid.v4()}`);
-    });
+    await Promise.all(
+      allKeys.map(key => AsyncStorage.setItem(key, `${uuid.v4}`)),
+    );
     const bridgeUpdateCompletedAt = dayjs();
 
     // delete
     const bridgeDeletionStartedAt = dayjs();
-    allKeys.forEach(async key => {
-      await AsyncStorage.removeItem(key);
-    });
+    await Promise.all(allKeys.map(key => AsyncStorage.removeItem(key)));
     const bridgeDeletionFinishedAt = dayjs();
 
     const bridgeTestFinishedAt = dayjs();
