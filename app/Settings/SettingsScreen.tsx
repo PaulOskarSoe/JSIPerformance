@@ -1,20 +1,16 @@
 import dayjs from 'dayjs';
 import React, {FC, useContext, useState} from 'react';
 import {
+  Alert,
+  AsyncStorage,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  AsyncStorage,
   View,
-  Alert,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import Animated, {
-  useAnimatedProps,
-  useSharedValue,
-} from 'react-native-reanimated';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import uuid from 'react-native-uuid';
 import {MainContext, MLMode} from '../context/MainContext';
@@ -33,9 +29,6 @@ type architectures = 'jsi' | 'bridge';
 const SettingsScreen: FC<ISettingsScreen> = () => {
   const {mode, setMode} = useContext(MainContext);
 
-  const calculating = useSharedValue(false);
-  const [results, setResults] = useState<any[]>([]);
-  const [jsiResult, setJsiResult] = useState<string>('');
   const [counter, setCounter] = useState<number>(1000);
   const [architecture, setArchitecture] = useState<architectures>('jsi');
 
@@ -213,7 +206,7 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.crudTestContainer}>
-        <Text style={styles.cardHeaderText}>CRUD storage test</Text>
+        <Text style={styles.cardHeaderText}>Memory test by architecture</Text>
 
         <View style={styles.architecureTabs}>
           <TouchableOpacity
