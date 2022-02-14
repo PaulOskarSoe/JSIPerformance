@@ -8,51 +8,53 @@
 import MLKit;
 import MLKitTextRecognition;
 
-
-
-
 @objc(VisionCameraTextRecognizer)
 public class VisionCameraTextRecognizer: NSObject, FrameProcessorPluginBase {
-
+  
   
   @objc
   public static func callback(_ frame: Frame!, withArgs _: [Any]!) -> Any! {
-    
-    let orientation = frame.orientation
     let textRecognizer = TextRecognizer.textRecognizer()
-
-
+    
+    
     let visionImage = VisionImage(buffer: frame.buffer)
-    visionImage.orientation = orientation
-
-    print("orinetation:", orientation)
-
-
-    var resultToReturn: [String] = ["1"]
-
-
-//    textRecognizer.process(visionImage) { result, error in
-//      guard error == nil, let result = result else {
-//
-//        // Error handling
-//        return
-//      }
-//
-//      result.blocks.forEach { TextBlock  in
-//        print("text block text:", TextBlock.text)
-//        resultToReturn.append("2")
-//        print("appended array:", TextBlock.text, resultToReturn)
-//
-//      }
-//
+    visionImage.orientation = .up
+    
+    var resultMap: [String: Any] = [:]
+    
+    do {
+      let result: Text = try textRecognizer.results(in: visionImage);
       
-      // Recognized text
-//    }
-
-    print("resultToReturn array:", resultToReturn)
-    // code goes here
-    return resultToReturn
+      resultMap["text"] = result.text;
+      
+      var blocks: [String] = []
+      var lines: [String] = []
+      var elements: [String] = []
+      
+      for  block in result.blocks {
+        blocks.append(block.text)
+        
+        for line in block.lines {
+          lines.append(line.text)
+          
+          for element in line.elements {
+            elements.append(element.text)
+          }
+        }
+      }
+      
+      resultMap["blocks"] = blocks;
+      resultMap["lines"] = lines;
+      resultMap["elements"] = elements;
+      
+    } catch _ {
+      return nil
+    }
+    
+    
+    
+    return resultMap
+    
   }
-  
-  
 }
+
