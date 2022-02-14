@@ -48,7 +48,10 @@ const BridgeCamera: FC<IBridgeCamera> = () => {
           }
         }}
         onTextRecognized={text => {
-          console.log('text:', JSON.stringify(text));
+          if (text.textBlocks.length > 0) {
+            currentResult.value = JSON.stringify(text.textBlocks);
+            testResults.value = text;
+          }
         }}
       />
       <RunTestButton
