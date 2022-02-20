@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {FC, useContext, useRef} from 'react';
+import React, {FC, useContext, useEffect, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import Reanimated, {useSharedValue} from 'react-native-reanimated';
 import {
@@ -25,10 +25,21 @@ const JSICamera: FC = () => {
 
   const camera = useRef<Camera>(null);
 
-  const devices = useCameraDevices('wide-angle-camera');
+  const devices = useCameraDevices();
   const currentLabel = useSharedValue('');
   const testResults = useSharedValue<any>([]);
   const device = devices.back;
+
+  console.log('devices:', device);
+
+  useEffect(() => {
+    Camera.getCameraPermissionStatus().then(res => {
+      if (res === 'denied') {
+        Camera.requestCameraPermission();
+      }
+    });
+    Camera.getMicrophonePermissionStatus();
+  }, []);
 
   const frameProcessor = useFrameProcessor(
     frame => {
