@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext, useMemo, useState} from 'react';
 import {
   Alert,
   AsyncStorage,
@@ -24,6 +24,12 @@ interface IMLOptions {
   value: MLMode;
 }
 
+const options: IMLOptions[] = [
+  {label: 'Barcode scanning', value: 'barcode_scan'},
+  {label: 'Text recognizition', value: 'text_regocnizition'},
+  {label: 'Face detection', value: 'face_detection'},
+];
+
 type architectures = 'jsi' | 'bridge';
 
 const SettingsScreen: FC<ISettingsScreen> = () => {
@@ -32,42 +38,9 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
   const [counter, setCounter] = useState<number>(1000);
   const [architecture, setArchitecture] = useState<architectures>('jsi');
 
-  console.log('counter:', counter);
-
-  const options: IMLOptions[] = [
-    {label: 'Barcode scanning', value: 'barcode_scan'},
-    {label: 'Text recognizition', value: 'text_regocnizition'},
-    {label: 'Face detection', value: 'face_detection'},
-  ];
-
-  // useEffect(() => {
-  //   const keys = storage.getAllKeys();
-
-  //   const allValues: any[] = [];
-
-  //   keys.forEach(key => {
-  //     const value = storage.getString(key);
-
-  //     if (value) {
-  //       const parsedValue = JSON.parse(value);
-
-  //       let totalResultsFound = 0;
-
-  //       parsedValue.results.forEach((result: ResultParameters) => {
-  //         totalResultsFound += result.detected_by_frame as unknown as number;
-  //       });
-
-  //       parsedValue.totalResults = totalResultsFound;
-  //       parsedValue.arithmeticallyFound = parseFloat(
-  //         `${totalResultsFound / parsedValue.results.length}`,
-  //       ).toFixed(1);
-
-  //       allValues.push(parsedValue);
-  //     }
-  //   });
-
-  //   setResults(allValues);
-  // }, []);
+  const currentMLKit = useMemo<string | undefined>(() => {
+    return options.find(option => option.value === mode)?.label;
+  }, [mode]);
 
   const runJsiTest = () => {
     storage.clearAll();
@@ -207,8 +180,10 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.crudTestContainer}>
-        <Text style={styles.cardHeaderText}>Memory test by architecture</Text>
+      <View style={styles.settingsCard}>
+        <Text style={styles.cardHeaderText}>
+          Cache CRUD operation performance
+        </Text>
 
         <View style={styles.architecureTabs}>
           <TouchableOpacity
@@ -259,31 +234,31 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <RNPickerSelect
-        style={{viewContainer: styles.picker}}
-        items={options}
-        onValueChange={val => setMode(val)}
-        value={mode}>
-        <Text>Select ML mode</Text>
-      </RNPickerSelect>
-      <ScrollView>
-        <Text style={styles.text}>Google MLKit results</Text>
-        {/* {results.map((result, index) => {
-          return (
-            <View key={index} style={styles.result}>
-              <Text key={index}>{`Mode: ${result.mode}, architecutre: ${
-                result.architecture
-              }, time: ${result?.testTime || '10'}`}</Text>
-              <Text>{`Frames detected by given time: ${
-                result.results.length / result?.testTime || 10
-              }`}</Text>
-              <Text>{`Total frames: ${result.results.length}`}</Text>
-              <Text>{`Total results: ${result.totalResults}`}</Text>
-              <Text>{`Arithmetic mean: ${result.arithmeticallyFound}`}</Text>
-            </View>
-          );
-        })} */}
-      </ScrollView>
+
+      <View style={styles.settingsCard}>
+        <Text style={styles.cardHeaderText}>Google ML kit performance</Text>
+        <RNPickerSelect
+          style={{
+            viewContainer: styles.picker,
+            inputAndroidContainer: styles.picker,
+          }}
+          items={options}
+          onValueChange={val => setMode(val)}
+          value={mode}>
+          <Text>
+            {currentMLKit
+              ? `Current ML kit: ${currentMLKit}`
+              : 'Select a ML kit'}
+          </Text>
+        </RNPickerSelect>
+        <View style={styles.cardFooter}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            hitSlop={{bottom: 50, left: 50, right: 50, top: 20}}>
+            <Text style={styles.actionText}>SHOW RESULTS</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -317,12 +292,13 @@ const styles = StyleSheet.create({
     height: '100%',
     padding: 20,
   },
-  crudTestContainer: {
+  settingsCard: {
     backgroundColor: Colors.card,
     borderBottomColor: Colors.background,
     borderBottomWidth: 2,
     padding: 15,
     borderRadius: 10,
+    marginBottom: 25,
   },
   architecureTabs: {
     width: '100%',
@@ -373,7 +349,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   textInput: {
-    height: 40,
+    marginTop: 20,
+    height: 45,
     borderWidth: 1,
     padding: 10,
     width: '100%',
@@ -381,8 +358,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   picker: {
-    marginTop: 50,
-    marginBottom: 20,
+    marginTop: 20,
+    height: 45,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    padding: 10,
   },
   resultContainer: {
     marginTop: 30,
