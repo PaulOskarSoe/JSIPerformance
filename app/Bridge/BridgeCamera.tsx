@@ -1,6 +1,6 @@
-import React, {FC} from 'react';
+import React, {FC, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
-// import {RNCamera} from 'react-native-camera';
+import {RNCamera} from 'react-native-camera';
 import {useSharedValue} from 'react-native-reanimated';
 import RunTestButton from '../components/RunTestButton';
 import {Label} from '../jsi/Label';
@@ -8,14 +8,14 @@ import {Label} from '../jsi/Label';
 interface IBridgeCamera {}
 
 const BridgeCamera: FC<IBridgeCamera> = () => {
-  // const camera = useRef(null);
+  const camera = useRef(null);
 
   const testResults = useSharedValue<any>([]);
   const currentResult = useSharedValue<any>([]);
 
   return (
     <View style={styles.container}>
-      {/* <RNCamera
+      <RNCamera
         ref={camera}
         style={styles.preview}
         type={RNCamera.Constants.Type.back}
@@ -53,7 +53,7 @@ const BridgeCamera: FC<IBridgeCamera> = () => {
             testResults.value = text;
           }
         }}
-      /> */}
+      />
       <RunTestButton
         architecture="bridge"
         testResults={testResults}

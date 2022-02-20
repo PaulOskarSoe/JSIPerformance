@@ -26,6 +26,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vision-camera": "^2.12.0",
     "vision-camera-code-scanner": "^0.1.6",
+    "react-native-camera": "^4.2.1",
     "vision-camera-face-detector": "^0.1.8",
     "vision-camera-qrcode-scanner": "^0.1.4"
   },
