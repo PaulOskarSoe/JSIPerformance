@@ -57,18 +57,9 @@ const RunTestButton: FC<IRunTestButtonProps> = ({
   // if seconds get reduced to 0, then test has been completed
   useEffect(() => {
     const finishTest = async () => {
-      console.log('finish test');
       if (remainingSeconds <= 0 && mode) {
         setTestRunning(false);
         setRemainingSeconds(testTime);
-
-        console.log('val:', {
-          architecture,
-          mode,
-          testTime,
-          results,
-          created_at: new Date(),
-        });
 
         updateTestResults(architecture, mode as string, results);
         storage.set(
