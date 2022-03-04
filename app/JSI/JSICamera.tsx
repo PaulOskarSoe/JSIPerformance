@@ -25,12 +25,10 @@ const JSICamera: FC = () => {
 
   const camera = useRef<Camera>(null);
 
-  const devices = useCameraDevices();
+  const devices = useCameraDevices('wide-angle-camera');
   const currentLabel = useSharedValue('');
   const testResults = useSharedValue<any>([]);
   const device = devices.back;
-
-  console.log('devices:', device);
 
   useEffect(() => {
     Camera.getCameraPermissionStatus().then(res => {

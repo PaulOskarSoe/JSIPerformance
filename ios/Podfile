@@ -21,6 +21,8 @@ target 'JSIPeformance' do
 
   # ML pods
   pod 'GoogleMLKit/TextRecognition','2.2.0'
+  pod 'DeviceKit', '~> 2.0'
+
 
 
   pod 'react-native-camera', path: '../node_modules/react-native-camera', subspecs: [

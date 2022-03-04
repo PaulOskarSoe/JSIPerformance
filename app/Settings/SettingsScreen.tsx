@@ -3,7 +3,7 @@ import React, {FC, useContext, useMemo, useState} from 'react';
 import {
   Alert,
   AsyncStorage,
-  ScrollView,
+  NativeModules,
   StyleSheet,
   Text,
   TextInput,
@@ -33,6 +33,8 @@ const options: IMLOptions[] = [
 type architectures = 'jsi' | 'bridge';
 
 const SettingsScreen: FC<ISettingsScreen> = () => {
+  const {DeviceInformationModule} = NativeModules;
+
   const {mode, setMode} = useContext(MainContext);
 
   const [counter, setCounter] = useState<number>(1000);
@@ -173,8 +175,6 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
     )}
     `;
 
-    console.log('result:', result);
-
     Alert.alert('Result', result);
   };
 
@@ -253,6 +253,16 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
         </RNPickerSelect>
         <View style={styles.cardFooter}>
           <TouchableOpacity
+            onPress={async () => {
+              DeviceInformationModule.getModel(val => {
+                console.log('val:', val);
+              });
+
+              // console.log('Device:', DeviceInformationModule.getModel());
+              // DeviceInformationModule.getModel().then(res => {
+              //   console.log('res:', res);
+              // });
+            }}
             style={styles.actionButton}
             hitSlop={{bottom: 50, left: 50, right: 50, top: 20}}>
             <Text style={styles.actionText}>SHOW RESULTS</Text>

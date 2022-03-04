@@ -13,7 +13,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		6172F2D35A4C3AA820D92908 /* libPods-JSIPeformance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-JSIPeformance.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		DA45EB832730403700157FB7 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA45EB822730403700157FB7 /* File.swift */; };
+		DA59F20B27D1FC5900BC250C /* DeviceInformationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA59F20A27D1FC5900BC250C /* DeviceInformationModule.swift */; };
+		DA59F21127D203EA00BC250C /* DeviceInformationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59F21027D203EA00BC250C /* DeviceInformationModule.m */; };
 		DAD9087F279DE9BD00BC5DA5 /* VisionCameraTextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD9087E279DE9BD00BC5DA5 /* VisionCameraTextRecognizer.swift */; };
 		DAD90881279DEBCB00BC5DA5 /* VisionCameraTextRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD90880279DEBCB00BC5DA5 /* VisionCameraTextRecognizer.m */; };
 /* End PBXBuildFile section */
@@ -43,7 +44,8 @@
 		C0A881CF5CF3F2B244570E2A /* Pods-JSIPeformance.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSIPeformance.debug.xcconfig"; path = "Target Support Files/Pods-JSIPeformance/Pods-JSIPeformance.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-JSIPeformance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSIPeformance.release.xcconfig"; path = "Target Support Files/Pods-JSIPeformance/Pods-JSIPeformance.release.xcconfig"; sourceTree = "<group>"; };
 		DA45EB812730403700157FB7 /* JSIPeformance-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSIPeformance-Bridging-Header.h"; sourceTree = "<group>"; };
-		DA45EB822730403700157FB7 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		DA59F20A27D1FC5900BC250C /* DeviceInformationModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInformationModule.swift; sourceTree = "<group>"; };
+		DA59F21027D203EA00BC250C /* DeviceInformationModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInformationModule.m; sourceTree = "<group>"; };
 		DAD9087E279DE9BD00BC5DA5 /* VisionCameraTextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionCameraTextRecognizer.swift; sourceTree = "<group>"; };
 		DAD90880279DEBCB00BC5DA5 /* VisionCameraTextRecognizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VisionCameraTextRecognizer.m; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -96,6 +98,8 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				DAD9087E279DE9BD00BC5DA5 /* VisionCameraTextRecognizer.swift */,
+				DA59F20A27D1FC5900BC250C /* DeviceInformationModule.swift */,
+				DA59F21027D203EA00BC250C /* DeviceInformationModule.m */,
 			);
 			name = JSIPeformance;
 			sourceTree = "<group>";
@@ -119,7 +123,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				DA45EB822730403700157FB7 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* JSIPeformance */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* JSIPeformanceTests */,
@@ -355,9 +358,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				DA59F21127D203EA00BC250C /* DeviceInformationModule.m in Sources */,
 				DAD90881279DEBCB00BC5DA5 /* VisionCameraTextRecognizer.m in Sources */,
+				DA59F20B27D1FC5900BC250C /* DeviceInformationModule.swift in Sources */,
 				DAD9087F279DE9BD00BC5DA5 /* VisionCameraTextRecognizer.swift in Sources */,
-				DA45EB832730403700157FB7 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
