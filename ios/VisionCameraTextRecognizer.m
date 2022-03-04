@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
 #import <VisionCamera/FrameProcessorPlugin.h>
 
-@interface VISION_EXPORT_SWIFT_FRAME_PROCESSOR(recognizeText, VisionCameraTextRecognizerm)
+@interface VISION_EXPORT_SWIFT_FRAME_PROCESSOR(recognizeText, VisionCameraTextRecognizer)
 @end

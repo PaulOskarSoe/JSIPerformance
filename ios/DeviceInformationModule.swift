@@ -12,7 +12,7 @@ import UIKit
 @objc(DeviceInformationModule)
 class DeviceInformationModule: NSObject {
 
-  let device = UIDevice();
+  
   
   @objc static func requiresMainQueueSetup() -> Bool {
       return false
@@ -20,11 +20,19 @@ class DeviceInformationModule: NSObject {
 
   
   @objc
-  func getModel(_ callback: RCTResponseSenderBlock) {
-    print("triggered")
-    callback(["tere"])
+  func getModel(
+    _ resolve: RCTPromiseResolveBlock,
+    rejecter reject: RCTPromiseRejectBlock
+  ) -> Void {
+    let device = UIDevice();
+    
+    if (device.name == nil) {
+      let error = NSError(domain: "", code: 200, userInfo: nil)
+      reject("Device error", "Device must be iphone", error)
+    } else {
+      resolve(device.name)
+    }
   }
-
   
 }
 

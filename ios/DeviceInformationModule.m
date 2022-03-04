@@ -11,6 +11,8 @@
 
 @interface RCT_EXTERN_MODULE(DeviceInformationModule, NSObject)
 
-RCT_EXTERN_METHOD(getModel: (RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(getModel: (RCTPromiseResolveBlock)resolve
+                  rejecter: (RCTPromiseRejectBlock)reject
+                  )
 
 @end
