@@ -254,14 +254,13 @@ const SettingsScreen: FC<ISettingsScreen> = () => {
         <View style={styles.cardFooter}>
           <TouchableOpacity
             onPress={async () => {
-              DeviceInformationModule.getModel(val => {
-                console.log('val:', val);
-              });
-
-              // console.log('Device:', DeviceInformationModule.getModel());
-              // DeviceInformationModule.getModel().then(res => {
-              //   console.log('res:', res);
-              // });
+              DeviceInformationModule.getModel()
+                .then((res: string) => {
+                  console.log('info:', res);
+                })
+                .catch((err: string) => {
+                  console.log('error:', err);
+                });
             }}
             style={styles.actionButton}
             hitSlop={{bottom: 50, left: 50, right: 50, top: 20}}>
