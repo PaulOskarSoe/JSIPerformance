@@ -16,6 +16,7 @@ import uuid from 'react-native-uuid';
 import {MainContext, MLMode} from '../context/MainContext';
 import {storage} from '../storage';
 import {Colors} from '../theme';
+import DeviceJsi from 'react-native-device-jsi';
 
 interface ISettingsScreen {}
 
@@ -33,6 +34,7 @@ const options: IMLOptions[] = [
 type architectures = 'jsi' | 'bridge';
 
 const SettingsScreen: FC<ISettingsScreen> = () => {
+  console.log(DeviceJsi.getDeviceName());
   const {DeviceInformationModule} = NativeModules;
 
   const {mode, setMode} = useContext(MainContext);

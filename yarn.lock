@@ -5549,6 +5549,10 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+"react-native-device-jsi@git+https://github.com/PaulOskarSoe/react-native-device-jsi":
+  version "0.1.0"
+  resolved "git+https://github.com/PaulOskarSoe/react-native-device-jsi#b79f981d93f44820a57e2a018bb86a4a36b624c9"
+
 react-native-dynamic-vector-icons@^1.1.6:
   version "1.1.6"
   resolved "https://registry.npmjs.org/react-native-dynamic-vector-icons/-/react-native-dynamic-vector-icons-1.1.6.tgz"

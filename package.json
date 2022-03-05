@@ -27,6 +27,7 @@
     "react-native-vision-camera": "^2.12.0",
     "vision-camera-code-scanner": "^0.1.6",
     "react-native-camera": "^4.2.1",
+    "react-native-device-jsi": "git+https://github.com/PaulOskarSoe/react-native-device-jsi",
     "vision-camera-face-detector": "^0.1.8",
     "vision-camera-qrcode-scanner": "^0.1.4"
   },
