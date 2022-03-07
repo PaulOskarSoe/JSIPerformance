@@ -5550,13 +5550,18 @@ react-native-codegen@^0.0.7:
     nullthrows "^1.1.1"
 
 "react-native-device-jsi@git+https://github.com/PaulOskarSoe/react-native-device-jsi":
-  version "0.1.0"
-  resolved "git+https://github.com/PaulOskarSoe/react-native-device-jsi#b79f981d93f44820a57e2a018bb86a4a36b624c9"
+  version "0.1.2"
+  resolved "git+https://github.com/PaulOskarSoe/react-native-device-jsi#03a20b9db0b1366f7b7cfa5bb906a26e3824527b"
 
 react-native-dynamic-vector-icons@^1.1.6:
   version "1.1.6"
   resolved "https://registry.npmjs.org/react-native-dynamic-vector-icons/-/react-native-dynamic-vector-icons-1.1.6.tgz"
   integrity sha512-tz098Wv/4TI70BRWfshSyVzWsoV4PRdp6fMMA7GRmxsaERfYshEy3Rs3bvD9tVjD+zKUcmM4Ce7bmAoJkGSNdg==
+
+react-native-mmkv-storage@0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.4.4.tgz#deafd63857bfed3facd0e406e01e82eb7a76c1b3"
+  integrity sha512-NuLKc9C0xLPgteQpieGMGbkNm8A0ma8rzfErQKZbS4KLD2bWQ8c1rZ71JgGBiJrCffpDy1BNZt86DZtPl7djXw==
 
 react-native-mmkv@^2.0.0:
   version "2.0.0"

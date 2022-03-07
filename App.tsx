@@ -3,7 +3,7 @@ import JSICamera from './app/jsi/JSICamera';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import BridgeCamera from './app/bridge/BridgeCamera';
-import SettingsScreen from './app/settings/SettingsScreen';
+import BenchMarkScreen from './app/benchmarks/BenchMarkScreen';
 import MainContextProvider from './app/context/MainContext';
 
 const Tab = createBottomTabNavigator();
@@ -24,9 +24,17 @@ const App = () => {
             },
             tabBarIconStyle: {display: 'none'},
           }}>
-          <Tab.Screen name="JSI" component={JSICamera} />
-          <Tab.Screen name="Bridge" component={BridgeCamera} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
+          <Tab.Screen
+            name="JSI"
+            options={() => ({tabBarLabel: 'JSI Cam'})}
+            component={JSICamera}
+          />
+          <Tab.Screen
+            name="Bridge"
+            options={() => ({tabBarLabel: 'Bridge Cam'})}
+            component={BridgeCamera}
+          />
+          <Tab.Screen name="Benchmarks" component={BenchMarkScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </MainContextProvider>

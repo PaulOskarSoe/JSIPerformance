@@ -6,7 +6,7 @@ import {
   MainContext,
   ResultParameters,
 } from '../context/MainContext';
-import {storage} from '../storage';
+import {storage} from '../jsiStorage';
 
 interface IRunTestButtonProps {
   architecture: Architectures;

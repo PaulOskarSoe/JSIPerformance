@@ -363,10 +363,13 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-device-jsi (0.1.0):
+  - react-native-device-jsi (0.1.2):
     - React-Core
   - react-native-mmkv (2.0.0):
     - MMKV
+    - React-Core
+  - react-native-mmkv-storage (0.4.4):
+    - MMKV (= 1.2.12)
     - React-Core
   - react-native-safe-area-context (3.3.2):
     - React-Core
@@ -534,6 +537,7 @@ DEPENDENCIES:
   - react-native-camera/FaceDetectorMLKit (from `../node_modules/react-native-camera`)
   - react-native-device-jsi (from `../node_modules/react-native-device-jsi`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
+  - react-native-mmkv-storage (from `../node_modules/react-native-mmkv-storage`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -632,6 +636,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-jsi"
   react-native-mmkv:
     :path: "../node_modules/react-native-mmkv"
+  react-native-mmkv-storage:
+    :path: "../node_modules/react-native-mmkv-storage"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
@@ -725,8 +731,9 @@ SPEC CHECKSUMS:
   React-jsinspector: 8c0517dee5e8c70cd6c3066f20213ff7ce54f176
   React-logger: bfddd3418dc1d45b77b822958f3e31422e2c179b
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-device-jsi: 80ce0f33a4de0212cbd77d676d5c91e9cd351adf
+  react-native-device-jsi: c0b013673a4aa9fe89bc1d782324e76272b96c00
   react-native-mmkv: 0eda0c2a8af66073f5e7067558189bb920867aee
+  react-native-mmkv-storage: 9e354a08e7ba0e5a235701ea606d3c83a22d8b9e
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   React-perflogger: fcac6090a80e3d967791b4c7f1b1a017f9d4a398
   React-RCTActionSheet: caf5913d9f9e605f5467206cf9d1caa6d47d7ad6
