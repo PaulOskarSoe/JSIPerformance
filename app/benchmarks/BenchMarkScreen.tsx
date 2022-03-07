@@ -1,7 +1,6 @@
 import React, {FC, useContext, useMemo, useRef, useState} from 'react';
 import {
   ScrollView,
-  // NativeModules,
   StyleSheet,
   Text,
   TextInput,
@@ -14,7 +13,12 @@ import {MainContext, MLMode} from '../context/MainContext';
 import {Colors} from '../theme';
 import DeviceJsi from 'react-native-device-jsi';
 import ArchitectureTabs from './components/ArchitectureTabs';
-import {runBridgeStorageBenchmark, runJsiStorageBenchmark} from './benchmarks';
+import {
+  runBridgeStorageBenchmark,
+  runCustomBridgeNativeModule,
+  runCustomJsiNativeModule,
+  runJsiStorageBenchmark,
+} from './benchmarks';
 
 interface IBenchMarkScreen {}
 
@@ -37,8 +41,8 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
   const [storageCounter, setStorageCounter] = useState<number>(1000);
   const [customModuleCounter, setCustomModuleCounter] = useState<number>(1000);
 
-  const storageArchitecture = useRef<architectures>('bridge');
-  const nativeModuleArchitecture = useRef<architectures>('bridge');
+  const storageArchitecture = useRef<architectures>('jsi');
+  const customNativeModuleArchitecture = useRef<architectures>('jsi');
 
   const currentMLKit = useMemo<string | undefined>(() => {
     return options.find(option => option.value === mode)?.label;
@@ -49,6 +53,14 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
       runJsiStorageBenchmark(storageCounter);
     } else {
       runBridgeStorageBenchmark(storageCounter);
+    }
+  };
+
+  const runCustomNativeModuleBenchmark = () => {
+    if (customNativeModuleArchitecture.current === 'jsi') {
+      runCustomJsiNativeModule(customModuleCounter);
+    } else {
+      runCustomBridgeNativeModule(customModuleCounter);
     }
   };
 
@@ -65,10 +77,10 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
             items={options}
             onValueChange={val => setMode(val)}
             value={mode}>
-            <Text>
+            <Text style={styles.mlKitText}>
               {currentMLKit
                 ? `Current ML kit: ${currentMLKit}`
-                : 'Select a ML kit'}
+                : 'Select ML kit'}
             </Text>
           </RNPickerSelect>
           <View style={styles.cardFooter}>
@@ -117,7 +129,7 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
           </Text>
           <ArchitectureTabs
             onChange={(newArchitecture: architectures) => {
-              nativeModuleArchitecture.current = newArchitecture;
+              customNativeModuleArchitecture.current = newArchitecture;
             }}
           />
           <TextInput
@@ -129,9 +141,7 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
           />
           <View style={styles.cardFooter}>
             <TouchableOpacity
-              onPress={async () => {
-                DeviceJsi.getDeviceName();
-              }}
+              onPress={runCustomNativeModuleBenchmark}
               style={styles.actionButton}
               hitSlop={{bottom: 50, left: 50, right: 50, top: 20}}>
               <Text style={styles.actionText}>SHOW RESULTS</Text>
@@ -174,6 +184,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  mlKitText: {
+    fontSize: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   settingsCard: {
     backgroundColor: Colors.card,
     borderBottomColor: Colors.background,
@@ -210,6 +225,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.border,
     padding: 10,
+    justifyContent: 'center',
   },
   resultContainer: {
     marginTop: 30,

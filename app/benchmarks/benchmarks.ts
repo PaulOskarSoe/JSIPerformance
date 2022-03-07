@@ -2,7 +2,8 @@ import dayjs from 'dayjs';
 import {storage as jsiStorage} from '../jsiStorage';
 import {bridgeStorage} from '../bridgeStorage';
 import uuid from 'react-native-uuid';
-import {Alert} from 'react-native';
+import {Alert, NativeModules} from 'react-native';
+import DeviceJsi from 'react-native-device-jsi';
 
 export const runJsiStorageBenchmark = (storageCounter: number) => {
   jsiStorage.clearAll();
@@ -103,6 +104,41 @@ export const runBridgeStorageBenchmark = async (storageCounter: number) => {
         'milliseconds',
       )}
       `;
+
+  Alert.alert('Result', result);
+};
+
+export const runCustomJsiNativeModule = (counter: number) => {
+  const {getDeviceName} = DeviceJsi;
+  const testStartedAt = dayjs();
+
+  for (let index = 0; index < counter; index++) {
+    getDeviceName();
+  }
+
+  const testFinishedAt = dayjs();
+
+  const result = `
+  Total test time: ${testFinishedAt.diff(testStartedAt, 'milliseconds')}
+  `;
+
+  Alert.alert('Result', result);
+};
+
+export const runCustomBridgeNativeModule = async (counter: number) => {
+  const {DeviceInformationModule} = NativeModules;
+  const {getModel} = DeviceInformationModule;
+  const testStartedAt = dayjs();
+
+  for (let index = 0; index < counter; index++) {
+    await getModel();
+  }
+
+  const testFinishedAt = dayjs();
+
+  const result = `
+  Total test time: ${testFinishedAt.diff(testStartedAt, 'milliseconds')}
+  `;
 
   Alert.alert('Result', result);
 };
