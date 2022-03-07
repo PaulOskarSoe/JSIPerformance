@@ -1,6 +1,5 @@
 import React, {FC, useContext, useMemo, useRef, useState} from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -19,6 +18,7 @@ import {
   runCustomJsiNativeModule,
   runJsiStorageBenchmark,
 } from './benchmarks';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 interface IBenchMarkScreen {}
 
@@ -65,7 +65,7 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <KeyboardAwareScrollView style={styles.scrollView}>
       <SafeAreaView style={styles.container}>
         <View style={styles.settingsCard}>
           <Text style={styles.cardHeaderText}>Google ML kit performance</Text>
@@ -149,7 +149,7 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
           </View>
         </View>
       </SafeAreaView>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
