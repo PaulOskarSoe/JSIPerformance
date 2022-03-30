@@ -54,15 +54,19 @@ const JSICamera: FC = () => {
         const recognizedText = recognizeText(frame);
 
         if (recognizedText) {
-          testResults.value = recognizedText;
+          testResults.value = [recognizedText];
           currentLabel.value = JSON.stringify(recognizedText.text);
         }
       } else if (mode === 'face_detection') {
         const detectedFaces = scanFaces(frame);
 
         if (detectedFaces && detectedFaces.length > 0) {
+          console.log('detected faces:', detectedFaces);
           testResults.value = detectedFaces;
           currentLabel.value = JSON.stringify(detectedFaces);
+        } else {
+          testResults.value = undefined;
+          currentLabel.value = '';
         }
       }
     },

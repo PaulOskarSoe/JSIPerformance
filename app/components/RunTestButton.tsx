@@ -37,7 +37,8 @@ const RunTestButton: FC<IRunTestButtonProps> = ({
       return testResults.value;
     },
     testingResults => {
-      if (testRunning && testingResults.length) {
+      if (testRunning && testingResults && testingResults.length) {
+        console.log('testRunning:', testRunning, testResults);
         runOnJS(onResultsDetected)(testingResults);
       }
     },
@@ -60,6 +61,8 @@ const RunTestButton: FC<IRunTestButtonProps> = ({
       if (remainingSeconds <= 0 && mode) {
         setTestRunning(false);
         setRemainingSeconds(testTime);
+
+        console.log('finished results:', results);
 
         updateTestResults(architecture, mode as string, results);
         storage.set(

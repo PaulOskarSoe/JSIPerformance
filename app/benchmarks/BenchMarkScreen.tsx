@@ -1,24 +1,28 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {FC, useContext, useMemo, useRef, useState} from 'react';
 import {
+  Button,
+  Modal,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import RNPickerSelect from 'react-native-picker-select';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {MainContext, MLMode} from '../context/MainContext';
 import {Colors} from '../theme';
-import DeviceJsi from 'react-native-device-jsi';
-import ArchitectureTabs from './components/ArchitectureTabs';
 import {
   runBridgeStorageBenchmark,
   runCustomBridgeNativeModule,
   runCustomJsiNativeModule,
   runJsiStorageBenchmark,
 } from './benchmarks';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import ArchitectureTabs from './components/ArchitectureTabs';
+import {storage} from '../jsiStorage';
 
 interface IBenchMarkScreen {}
 
@@ -33,16 +37,53 @@ const options: IMLOptions[] = [
   {label: 'Face detection', value: 'face_detection'},
 ];
 
+export type RootStackParamList = {
+  JsiAnimationScreen: undefined;
+  Home: undefined;
+};
+
 type architectures = 'jsi' | 'bridge';
 
 const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
   const {mode, setMode} = useContext(MainContext);
+  const {navigate} = useNavigation();
 
   const [storageCounter, setStorageCounter] = useState<number>(1000);
   const [customModuleCounter, setCustomModuleCounter] = useState<number>(1000);
+  const [mlKitModalVisible, setMlKitModalVisible] = useState<boolean>(false);
 
   const storageArchitecture = useRef<architectures>('jsi');
   const customNativeModuleArchitecture = useRef<architectures>('jsi');
+
+  const allMlKitResults = useMemo<string[]>(() => {
+    const keys = storage.getAllKeys();
+
+    const values: string[] = [];
+
+    keys.forEach((key: string) => {
+      const value = storage.getString(key);
+      if (value) {
+        const parsedValue: any = JSON.parse(value);
+
+        if (parsedValue?.results) {
+          let totalResultsFound = 0;
+
+          parsedValue.results.forEach((result: any) => {
+            totalResultsFound += result.detected_by_frame as unknown as number;
+          });
+
+          parsedValue.totalResults = totalResultsFound;
+          parsedValue.arithmeticallyFound = parseFloat(
+            `${totalResultsFound / parsedValue.results.length}`,
+          ).toFixed(1);
+        }
+
+        values.push(parsedValue);
+      }
+    });
+
+    return values;
+  }, []);
 
   const currentMLKit = useMemo<string | undefined>(() => {
     return options.find(option => option.value === mode)?.label;
@@ -78,15 +119,13 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
             onValueChange={val => setMode(val)}
             value={mode}>
             <Text style={styles.mlKitText}>
-              {currentMLKit
-                ? `Current ML kit: ${currentMLKit}`
-                : 'Select ML kit'}
+              {currentMLKit ? `${currentMLKit}` : 'Select ML kit'}
             </Text>
           </RNPickerSelect>
           <View style={styles.cardFooter}>
             <TouchableOpacity
-              onPress={async () => {
-                DeviceJsi.getDeviceName();
+              onPress={() => {
+                setMlKitModalVisible(true);
               }}
               style={styles.actionButton}
               hitSlop={{bottom: 50, left: 50, right: 50, top: 20}}>
@@ -96,9 +135,7 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
         </View>
 
         <View style={styles.settingsCard}>
-          <Text style={styles.cardHeaderText}>
-            Cache CRUD operation performance
-          </Text>
+          <Text style={styles.cardHeaderText}>MMKV storage operations</Text>
 
           <ArchitectureTabs
             onChange={(newArchitecture: architectures) => {
@@ -148,7 +185,64 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
             </TouchableOpacity>
           </View>
         </View>
+
+        <View style={styles.settingsCard}>
+          <Text style={styles.cardHeaderText}>Animation performance</Text>
+          <View style={styles.row}>
+            <Button
+              title="JSI"
+              onPress={() => navigate('JsiAnimationScreen' as never)}
+            />
+            <Button
+              title="Bridge"
+              onPress={() => navigate('BridgeAnimationScreen' as never)}
+            />
+          </View>
+        </View>
       </SafeAreaView>
+      <Modal
+        transparent
+        animationType="slide"
+        visible={mlKitModalVisible}
+        onRequestClose={() => setMlKitModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalInnerContainer}>
+            <ScrollView>
+              {allMlKitResults.map((result: any, index) => {
+                return (
+                  <View key={index} style={{marginBottom: 10}}>
+                    <Text>
+                      Architecture: <Text>{result.architecture}</Text>
+                    </Text>
+                    <Text>
+                      mode: <Text>{result.mode}</Text>
+                    </Text>
+                    <Text>
+                      time: <Text>{`${result.testTime} s`}</Text>
+                    </Text>
+                    <Text>
+                      Results found:
+                      <Text> {`${result?.totalResults || 0}`}</Text>
+                    </Text>
+                    <Text>
+                      Frames found per second
+                      <Text>
+                        {' '}
+                        {`${result?.totalResults / result.testTime || 0}`}
+                      </Text>{' '}
+                    </Text>
+                  </View>
+                );
+              })}
+            </ScrollView>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => setMlKitModalVisible(false)}>
+              <Text style={styles.actionText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </KeyboardAwareScrollView>
   );
 };
@@ -168,9 +262,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   actionButton: {
+    marginTop: 20,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    flex: 1,
   },
   actionText: {
     color: Colors.primary,
@@ -188,6 +282,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    fontWeight: '500',
   },
   settingsCard: {
     backgroundColor: Colors.card,
@@ -196,6 +291,11 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginTop: 25,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
   runTestText: {
     textAlign: 'right',
@@ -240,5 +340,52 @@ const styles = StyleSheet.create({
   },
   result: {
     paddingBottom: 15,
+  },
+  modalContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    bottom: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+  modalInnerContainer: {
+    width: '80%',
+    height: '70%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignContent: 'center',
+    padding: 20,
+    margin: 20,
+  },
+  navigationOptions: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  navigationOption: {
+    height: 47,
+    justifyContent: 'center',
+    marginLeft: 16,
+  },
+  navigationOptionText: {
+    color: '#353D48',
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  cancelButton: {
+    backgroundColor: 'white',
+    borderRadius: 100,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingContainer: {
+    bottom: 10,
+    backgroundColor: 'white',
+    padding: 30,
+    borderRadius: 12,
   },
 });
