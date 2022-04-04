@@ -1,15 +1,20 @@
-import {ScrollView, StyleSheet} from 'react-native';
+import {useRoute} from '@react-navigation/native';
 import React, {FC} from 'react';
+import {ScrollView, StyleSheet} from 'react-native';
 import AnimatedImage from './AnimatedImage';
 
-const COUNT = 350;
+const COUNT = 50;
 
 interface IBridgeAnimation {}
 
 const BridgeAnimation: FC<IBridgeAnimation> = () => {
+  const {params} = useRoute<any>();
+
+  const imageCount = params.imageCount || COUNT;
+
   const renderArray = [];
 
-  for (let index = 0; index < COUNT; index++) {
+  for (let index = 0; index < imageCount; index++) {
     renderArray.push(<AnimatedImage key={index} />);
   }
 

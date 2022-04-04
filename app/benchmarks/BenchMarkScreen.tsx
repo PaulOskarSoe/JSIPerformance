@@ -51,6 +51,7 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
   const [storageCounter, setStorageCounter] = useState<number>(1000);
   const [customModuleCounter, setCustomModuleCounter] = useState<number>(1000);
   const [mlKitModalVisible, setMlKitModalVisible] = useState<boolean>(false);
+  const [imageCount, setImageCount] = useState<number>(100);
 
   const storageArchitecture = useRef<architectures>('jsi');
   const customNativeModuleArchitecture = useRef<architectures>('jsi');
@@ -188,15 +189,32 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
 
         <View style={styles.settingsCard}>
           <Text style={styles.cardHeaderText}>Animation performance</Text>
-          <View style={styles.row}>
-            <Button
-              title="JSI"
-              onPress={() => navigate('JsiAnimationScreen' as never)}
-            />
-            <Button
-              title="Bridge"
-              onPress={() => navigate('BridgeAnimationScreen' as never)}
-            />
+          <Text>Insert image count for animations</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={e => setImageCount(parseInt(e, 10))}
+            placeholder="Operation counter"
+            keyboardType="numeric"
+            defaultValue={imageCount.toString()}
+          />
+          <View style={styles.cardFooter}>
+            <View style={styles.row}>
+              <Button
+                title="JSI"
+                onPress={() =>
+                  navigate('JsiAnimationScreen' as never, {imageCount} as never)
+                }
+              />
+              <Button
+                title="Bridge"
+                onPress={() =>
+                  navigate(
+                    'BridgeAnimationScreen' as never,
+                    {imageCount} as never,
+                  )
+                }
+              />
+            </View>
           </View>
         </View>
       </SafeAreaView>
@@ -293,6 +311,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   row: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
