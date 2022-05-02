@@ -67,16 +67,12 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
         const parsedValue: any = JSON.parse(value);
 
         if (parsedValue?.results) {
-          let totalResultsFound = 0;
+          let totalResultCount = 0;
 
           parsedValue.results.forEach((result: any) => {
-            totalResultsFound += result.detected_by_frame as unknown as number;
+            totalResultCount += result.detected_by_frame as unknown as number;
           });
-
-          parsedValue.totalResults = totalResultsFound;
-          parsedValue.arithmeticallyFound = parseFloat(
-            `${totalResultsFound / parsedValue.results.length}`,
-          ).toFixed(1);
+          parsedValue.totalResultCount = totalResultCount;
         }
 
         values.push(parsedValue);
@@ -229,25 +225,56 @@ const BenchMarkScreen: FC<IBenchMarkScreen> = () => {
               {allMlKitResults.map((result: any, index) => {
                 return (
                   <View key={index} style={{marginBottom: 10}}>
-                    <Text>
-                      Architecture: <Text>{result.architecture}</Text>
+                    <Text style={{fontSize: 20}}>
+                      Architecture:{' '}
+                      <Text style={{fontSize: 20}}>{result.architecture}</Text>
                     </Text>
-                    <Text>
-                      mode: <Text>{result.mode}</Text>
+                    <Text style={{fontSize: 20}}>
+                      mode: <Text style={{fontSize: 20}}>{result.mode}</Text>
                     </Text>
-                    <Text>
-                      time: <Text>{`${result.testTime} s`}</Text>
+                    <Text style={{fontSize: 20}}>
+                      time:{' '}
+                      <Text
+                        style={{fontSize: 20}}>{`${result.testTime} s`}</Text>
                     </Text>
-                    <Text>
-                      Results found:
-                      <Text> {`${result?.totalResults || 0}`}</Text>
+                    <Text style={{fontSize: 20}}>
+                      Results without value{' '}
+                      <Text style={{fontSize: 20}}>{`${
+                        result?.nullResults || 0
+                      }`}</Text>
                     </Text>
-                    <Text>
+                    <Text style={{fontSize: 20}}>
+                      Results with value{' '}
+                      <Text style={{fontSize: 20}}>{`${
+                        (result?.totalResults || 0) - result?.nullResults || 0
+                      }`}</Text>
+                    </Text>
+                    <Text style={{fontSize: 20}}>
+                      Total results found:
+                      <Text style={{fontSize: 20}}>
+                        {' '}
+                        {`${result.totalResults}`}
+                      </Text>
+                    </Text>
+                    <Text style={{fontSize: 20}}>
+                      Total results count:
+                      <Text style={{fontSize: 20}}>
+                        {' '}
+                        {`${result.totalResultCount}`}
+                      </Text>
+                    </Text>
+                    <Text style={{fontSize: 20}}>
                       Frames found per second
-                      <Text>
+                      <Text style={{fontSize: 20}}>
                         {' '}
                         {`${result?.totalResults / result.testTime || 0}`}
                       </Text>{' '}
+                    </Text>
+                    <Text style={{fontSize: 20}}>
+                      Results without value{' '}
+                      <Text style={{fontSize: 20}}>{`${
+                        result?.nullResults || 0
+                      }`}</Text>
                     </Text>
                   </View>
                 );

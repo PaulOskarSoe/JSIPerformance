@@ -23,12 +23,19 @@ const RunTestButton: FC<IRunTestButtonProps> = ({
   const [testRunning, setTestRunning] = useState<boolean>(false);
   const [remainingSeconds, setRemainingSeconds] = useState<number>(testTime); // default value is 10, maybe in future let user to set testing interval?
   const [results, setResults] = useState<ResultParameters[]>([]);
+  const [nullResults, setNullResults] = useState<number>(0);
+  const [totalResults, setTotalResults] = useState<number>(0);
 
   const onResultsDetected = useCallback((newResults: any) => {
-    setResults(currResults => [
-      ...currResults,
-      {detected_by_frame: newResults.length},
-    ]);
+    if (newResults && newResults.length) {
+      setResults(currResults => [
+        ...currResults,
+        {detected_by_frame: newResults.length},
+      ]);
+    } else {
+      setNullResults(currVal => currVal + 1);
+    }
+    setTotalResults(x => x + 1);
   }, []);
 
   // get value from UI thread and runResults on JS for testing purposes
@@ -37,8 +44,7 @@ const RunTestButton: FC<IRunTestButtonProps> = ({
       return testResults.value;
     },
     testingResults => {
-      if (testRunning && testingResults && testingResults.length) {
-        console.log('testRunning:', testRunning, testResults);
+      if (testRunning) {
         runOnJS(onResultsDetected)(testingResults);
       }
     },
@@ -62,8 +68,6 @@ const RunTestButton: FC<IRunTestButtonProps> = ({
         setTestRunning(false);
         setRemainingSeconds(testTime);
 
-        console.log('finished results:', results);
-
         updateTestResults(architecture, mode as string, results);
         storage.set(
           JSON.stringify(new Date()),
@@ -73,6 +77,8 @@ const RunTestButton: FC<IRunTestButtonProps> = ({
             mode,
             results,
             created_at: new Date(),
+            nullResults: nullResults,
+            totalResults,
           }),
         );
       }

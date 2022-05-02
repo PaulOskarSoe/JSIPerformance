@@ -45,28 +45,22 @@ const JSICamera: FC = () => {
       if (mode === 'barcode_scan') {
         const scannedCodes = scanBarcodes(frame, [BarcodeFormat.ALL_FORMATS]);
 
+        testResults.value = scannedCodes;
         if (scannedCodes && scannedCodes.length > 0) {
-          testResults.value = scannedCodes;
           currentLabel.value = JSON.stringify(scannedCodes);
         }
-        // TODO needs implementation
       } else if (mode === 'text_regocnizition') {
         const recognizedText = recognizeText(frame);
 
+        testResults.value = [recognizedText];
         if (recognizedText) {
-          testResults.value = [recognizedText];
           currentLabel.value = JSON.stringify(recognizedText.text);
         }
       } else if (mode === 'face_detection') {
         const detectedFaces = scanFaces(frame);
-
+        testResults.value = detectedFaces;
         if (detectedFaces && detectedFaces.length > 0) {
-          console.log('detected faces:', detectedFaces);
-          testResults.value = detectedFaces;
           currentLabel.value = JSON.stringify(detectedFaces);
-        } else {
-          testResults.value = undefined;
-          currentLabel.value = '';
         }
       }
     },
@@ -78,7 +72,7 @@ const JSICamera: FC = () => {
       {device && (
         <ReanimatedCamera
           frameProcessor={mode && frameProcessor}
-          frameProcessorFps={1}
+          frameProcessorFps={60}
           fps={60}
           style={styles.camera}
           isActive

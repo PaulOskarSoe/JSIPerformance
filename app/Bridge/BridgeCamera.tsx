@@ -1,17 +1,51 @@
-import React, {FC, useRef} from 'react';
+import React, {FC, useContext, useMemo, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useSharedValue} from 'react-native-reanimated';
 import RunTestButton from '../components/RunTestButton';
+import {MainContext} from '../context/MainContext';
 import {Label} from '../jsi/Label';
 
 interface IBridgeCamera {}
 
 const BridgeCamera: FC<IBridgeCamera> = () => {
   const camera = useRef(null);
+  const {mode} = useContext(MainContext);
 
   const testResults = useSharedValue<any>([]);
   const currentResult = useSharedValue<any>([]);
+
+  const props = useMemo(() => {
+    if (mode === 'barcode_scan') {
+      return {
+        onGoogleVisionBarcodesDetected: ({barcodes}: {barcodes: any}) => {
+          testResults.value = barcodes;
+          if (barcodes.length > 0) {
+            currentResult.value = barcodes;
+          }
+        },
+      };
+    } else if (mode === 'text_regocnizition') {
+      return {
+        onTextRecognized: (text: any) => {
+          testResults.value = [text];
+          if (text.textBlocks.length > 0) {
+            currentResult.value = JSON.stringify(text.textBlocks);
+          }
+        },
+      };
+    } else if (mode === 'face_detection') {
+      return {
+        onFacesDetected: (facesResponse: any) => {
+          const {faces} = facesResponse;
+          testResults.value = faces;
+          if (faces.length > 0) {
+            currentResult.value = faces;
+          }
+        },
+      };
+    }
+  }, [currentResult, mode, testResults]);
 
   return (
     <View style={styles.container}>
@@ -32,27 +66,7 @@ const BridgeCamera: FC<IBridgeCamera> = () => {
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
         }}
-        onGoogleVisionBarcodesDetected={({barcodes}) => {
-          if (barcodes.length > 0) {
-            currentResult.value = barcodes;
-            testResults.value = barcodes;
-          }
-        }}
-        faceDetectionMode={'fast'}
-        onFaceDetectionError={err => console.error('error:', err)}
-        onFacesDetected={facesResponse => {
-          const {faces} = facesResponse;
-          if (faces.length > 0) {
-            currentResult.value = faces;
-            testResults.value = faces;
-          }
-        }}
-        onTextRecognized={text => {
-          if (text.textBlocks.length > 0) {
-            currentResult.value = JSON.stringify(text.textBlocks);
-            testResults.value = text;
-          }
-        }}
+        {...props}
       />
       <RunTestButton
         architecture="bridge"
