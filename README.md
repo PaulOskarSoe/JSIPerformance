@@ -58,7 +58,13 @@ Install with npm
 npm install
 ```
 
-**Step two: build code**
+**Step two: Install pods**
+
+```shell
+cd ios && pod install
+```
+
+**Step three: build code**
 
 Build with yarn
 
